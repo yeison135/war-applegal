@@ -6,6 +6,7 @@
 package com.laboraapp.persistence;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,13 +19,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yalvarez
+ * @author Yeisson alvarez
  */
 @Entity
 @Table(name = "tipo_conflicto")
@@ -49,9 +52,9 @@ public class TipoConflicto implements Serializable {
     @Size(max = 45)
     @Column(name = "ESTADO")
     private String estado;
-    @Size(max = 45)
     @Column(name = "FECHA_REGISTRO")
-    private String fechaRegistro;
+    @Temporal(TemporalType.DATE)
+    private Date fechaRegistro;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoConflicto")
     private List<Demanda> demandaList;
 
@@ -86,11 +89,11 @@ public class TipoConflicto implements Serializable {
         this.estado = estado;
     }
 
-    public String getFechaRegistro() {
+    public Date getFechaRegistro() {
         return fechaRegistro;
     }
 
-    public void setFechaRegistro(String fechaRegistro) {
+    public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author yalvarez
+ * @author Yeisson alvarez
  */
 @Entity
 @Table(name = "tipo_contrato")

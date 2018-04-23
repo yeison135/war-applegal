@@ -1,18 +1,21 @@
 package com.laborapp.manager;
 
+import com.laboraapp.persistence.Persona;
 import com.laboraapp.persistence.Usuario;
+import com.laborapp.filtroDTO.FiltroDTO;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-
 public class LaborAppManager {
-    
-     public List<Usuario> consultarUsuarios(EntityManager em) {
+
+    public List<Usuario> consultarUsuarios(EntityManager em) {
         Query consulta = em.createNamedQuery("Usuario.findAll");
         List<Usuario> Personas = consulta.getResultList();
         return Personas;
     }
+
 //     public List<Color> consultarColores(EntityManager em) {
 //        Query consulta = em.createNamedQuery("Color.findAll");
 //        List<Color> colores = consulta.getResultList();
@@ -90,20 +93,54 @@ public class LaborAppManager {
 //        return detalle;
 //    }
 //
-//    public Integer registrarCliente(Cliente cliente, EntityManager em)
-//            throws Exception {
-//        Integer registro;
-//        try {
-//            em.getTransaction().begin();
-//            em.persist(cliente);
-//            em.getTransaction().commit();
-//            registro = cliente.getIdcliente();
-//        } catch (Exception e) {
-//            registro = null;
-//        }
-//
-//        return registro;
+    public Integer registrarUsuario(Usuario usuario, EntityManager em)
+            throws Exception {
+        Integer registro;
+        try {
+            usuario.setFechaRegistro(new Date());
+            em.getTransaction().begin();
+            em.persist(usuario);
+            em.getTransaction().commit();
+            registro = usuario.getIdUsuario();
+        } catch (Exception e) {
+            registro = null;
+        }
+        return registro;
+    }
+
+    public Integer registrarPersona(Persona persona, EntityManager em)
+            throws Exception {
+        Integer registro;
+        try {
+            em.getTransaction().begin();
+            em.persist(persona);
+            em.getTransaction().commit();
+            registro = persona.getIdPersona();
+        } catch (Exception e) {
+            registro = null;
+        }
+        return registro;
+    }
+
+    public Usuario consultarUsuario(FiltroDTO filtro, EntityManager em) {
+        StringBuilder queryString = new StringBuilder();
+        queryString.append("SELECT u FROM Usuario u WHERE u.usuario =:usuario AND u.contrasena =:contrasena");
+        Query query = em.createQuery(queryString.toString());
+        if (filtro.getFiltroUno() != null && filtro.getFiltroDos() != null) {
+            query.setParameter("usuario", filtro.getFiltroUno());
+            query.setParameter("contrasena", filtro.getFiltroDos());
+        }
+        Usuario usuario = new Usuario();
+        try {
+            usuario = (Usuario) query.getSingleResult();
+        } catch (Exception e) {
+            usuario = null;
+        }
+
+        return usuario;
 //    }
+    }
+
 //
 //    
 //     public Integer registrarFacturaCotizar(FacturaCotizar facturaCotizar, EntityManager em)
@@ -172,5 +209,4 @@ public class LaborAppManager {
 //        return resultado;
 //    }
 //    
-    
 }
