@@ -16,6 +16,7 @@
     <class>com.laboraapp.persistence.SalariosMinimos</class>
     <class>com.laboraapp.persistence.Demanda</class>
     <class>com.laboraapp.persistence.Sentencia</class>
+    <class>com.laboraapp.persistence.Hecho</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/laborapp?zeroDateTimeBehavior=convertToNull"/>

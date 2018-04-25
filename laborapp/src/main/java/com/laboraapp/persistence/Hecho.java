@@ -5,9 +5,12 @@
  */
 package com.laboraapp.persistence;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,27 +20,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Yeisson alvarez
  */
 @Entity
-@Table(name = "sentencia")
+@Table(name = "hecho")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Sentencia.findAll", query = "SELECT s FROM Sentencia s")
-    , @NamedQuery(name = "Sentencia.findByIdSentencia", query = "SELECT s FROM Sentencia s WHERE s.idSentencia = :idSentencia")
-    , @NamedQuery(name = "Sentencia.findByDescripcion", query = "SELECT s FROM Sentencia s WHERE s.descripcion = :descripcion")
-    , @NamedQuery(name = "Sentencia.findByDiasACancelar", query = "SELECT s FROM Sentencia s WHERE s.diasACancelar = :diasACancelar")
-    , @NamedQuery(name = "Sentencia.findByFechaRegistro", query = "SELECT s FROM Sentencia s WHERE s.fechaRegistro = :fechaRegistro")
-    , @NamedQuery(name = "Sentencia.findByTotal", query = "SELECT s FROM Sentencia s WHERE s.total = :total")})
-public class Sentencia implements Serializable {
+    @NamedQuery(name = "Hecho.findAll", query = "SELECT h FROM Hecho h")
+    , @NamedQuery(name = "Hecho.findByIdSentencia", query = "SELECT h FROM Hecho h WHERE h.idSentencia = :idSentencia")
+    , @NamedQuery(name = "Hecho.findByDescripcion", query = "SELECT h FROM Hecho h WHERE h.descripcion = :descripcion")
+    , @NamedQuery(name = "Hecho.findByDiasACancelar", query = "SELECT h FROM Hecho h WHERE h.diasACancelar = :diasACancelar")
+    , @NamedQuery(name = "Hecho.findByFechaRegistro", query = "SELECT h FROM Hecho h WHERE h.fechaRegistro = :fechaRegistro")
+    , @NamedQuery(name = "Hecho.findByTotal", query = "SELECT h FROM Hecho h WHERE h.total = :total")})
+public class Hecho implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -60,11 +65,14 @@ public class Sentencia implements Serializable {
     @JoinColumn(name = "ID_DEMANDA", referencedColumnName = "ID_DEMANDA")
     @ManyToOne(optional = false)
     private Demanda idDemanda;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hechoIDSENTENCIA")
+    @JsonBackReference(value = "evidenciaList")
+    private List<Evidencia> evidenciaList;
 
-    public Sentencia() {
+    public Hecho() {
     }
 
-    public Sentencia(Integer idSentencia) {
+    public Hecho(Integer idSentencia) {
         this.idSentencia = idSentencia;
     }
 
@@ -116,6 +124,15 @@ public class Sentencia implements Serializable {
         this.idDemanda = idDemanda;
     }
 
+    @XmlTransient
+    public List<Evidencia> getEvidenciaList() {
+        return evidenciaList;
+    }
+
+    public void setEvidenciaList(List<Evidencia> evidenciaList) {
+        this.evidenciaList = evidenciaList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -126,10 +143,10 @@ public class Sentencia implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Sentencia)) {
+        if (!(object instanceof Hecho)) {
             return false;
         }
-        Sentencia other = (Sentencia) object;
+        Hecho other = (Hecho) object;
         if ((this.idSentencia == null && other.idSentencia != null) || (this.idSentencia != null && !this.idSentencia.equals(other.idSentencia))) {
             return false;
         }
@@ -138,7 +155,7 @@ public class Sentencia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.laboraapp.persistence.Sentencia[ idSentencia=" + idSentencia + " ]";
+        return "com.laboraapp.persistence.Hecho[ idSentencia=" + idSentencia + " ]";
     }
     
 }

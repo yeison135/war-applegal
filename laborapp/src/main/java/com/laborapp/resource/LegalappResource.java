@@ -6,6 +6,9 @@
 package com.laborapp.resource;
 
 import com.laboraapp.persistence.Persona;
+import com.laboraapp.persistence.SalariosMinimos;
+import com.laboraapp.persistence.TipoConflicto;
+import com.laboraapp.persistence.TipoContrato;
 import com.laboraapp.persistence.Usuario;
 import com.laborapp.entityManager.EMF;
 import com.laborapp.filtroDTO.FiltroDTO;
@@ -48,6 +51,36 @@ public class LegalappResource {
         LaborAppManager manager = new LaborAppManager();
         List<Usuario> user = manager.consultarUsuarios(em);
         return user;
+    }
+    
+    @GET
+    @Path("consultarTipoConflicto")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<TipoConflicto> ConsultarTipoConflicto() {
+        LaborAppManager manager = new LaborAppManager();
+        List<TipoConflicto> tipo = manager.ConsultarTipoConflicto(em);
+        return tipo;
+    }
+    
+    @GET
+    @Path("consultarSalarios")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<SalariosMinimos> ConsultarSalarios() {
+        LaborAppManager manager = new LaborAppManager();
+        List<SalariosMinimos> salario = manager.ConsultarSalarios(em);
+        return salario;
+    }
+    
+     @GET
+    @Path("consultarTipoContrato")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<TipoContrato> ConsultarTipoContrato() {
+        LaborAppManager manager = new LaborAppManager();
+        List<TipoContrato> tipoContrato = manager.ConsultarTipoContrato(em);
+        return tipoContrato;
     }
     
     @POST

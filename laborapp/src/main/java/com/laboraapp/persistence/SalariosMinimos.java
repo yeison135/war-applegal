@@ -5,6 +5,7 @@
  */
 package com.laboraapp.persistence;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -49,6 +50,7 @@ public class SalariosMinimos implements Serializable {
     @Column(name = "SALARIO")
     private String salario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSalarioMinimo")
+    @JsonBackReference(value = "demandaList")
     private List<Demanda> demandaList;
 
     public SalariosMinimos() {

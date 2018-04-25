@@ -54,9 +54,9 @@ public class Evidencia implements Serializable {
     @Size(max = 45)
     @Column(name = "FECHA_REGISTRO")
     private String fechaRegistro;
-    @JoinColumn(name = "ID_DEMANDA", referencedColumnName = "ID_DEMANDA")
+    @JoinColumn(name = "Hecho_ID_SENTENCIA", referencedColumnName = "ID_SENTENCIA")
     @ManyToOne(optional = false)
-    private Demanda idDemanda;
+    private Hecho hechoIDSENTENCIA;
 
     public Evidencia() {
     }
@@ -105,12 +105,12 @@ public class Evidencia implements Serializable {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public Demanda getIdDemanda() {
-        return idDemanda;
+    public Hecho getHechoIDSENTENCIA() {
+        return hechoIDSENTENCIA;
     }
 
-    public void setIdDemanda(Demanda idDemanda) {
-        this.idDemanda = idDemanda;
+    public void setHechoIDSENTENCIA(Hecho hechoIDSENTENCIA) {
+        this.hechoIDSENTENCIA = hechoIDSENTENCIA;
     }
 
     @Override

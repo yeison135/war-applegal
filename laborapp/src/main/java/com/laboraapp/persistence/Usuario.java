@@ -5,6 +5,7 @@
  */
 package com.laboraapp.persistence;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -67,6 +68,7 @@ public class Usuario implements Serializable {
     @Column(name = "FOTO")
     private byte[] foto;
     @OneToMany(mappedBy = "idUsuario")
+    @JsonBackReference(value = "personaList")
     private List<Persona> personaList;
 
     public Usuario() {

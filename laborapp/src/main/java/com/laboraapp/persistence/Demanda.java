@@ -5,6 +5,8 @@
  */
 package com.laboraapp.persistence;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -67,20 +69,23 @@ public class Demanda implements Serializable {
     private String profecion;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
     @ManyToOne(optional = false)
+    @JsonManagedReference(value = "idPersona")
     private Persona idPersona;
     @JoinColumn(name = "ID_SALARIO_MINIMO", referencedColumnName = "ID_SALARIO_MINIMO")
     @ManyToOne(optional = false)
+    @JsonManagedReference(value = "idSalarioMinimo")
     private SalariosMinimos idSalarioMinimo;
     @JoinColumn(name = "ID_TIPO_CONFLICTO", referencedColumnName = "ID_TIPO_CONFLICTO")
     @ManyToOne(optional = false)
+    @JsonManagedReference(value = "idTipoConflicto")
     private TipoConflicto idTipoConflicto;
     @JoinColumn(name = "ID_TIP_CONTRATO", referencedColumnName = "ID_TIP_CONTRATO")
     @ManyToOne(optional = false)
+    @JsonManagedReference(value = "idTipContrato")
     private TipoContrato idTipContrato;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDemanda")
-    private List<Evidencia> evidenciaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDemanda")
-    private List<Sentencia> sentenciaList;
+    @JsonBackReference(value = "hechoList")
+    private List<Hecho> hechoList;
 
     public Demanda() {
     }
@@ -170,21 +175,12 @@ public class Demanda implements Serializable {
     }
 
     @XmlTransient
-    public List<Evidencia> getEvidenciaList() {
-        return evidenciaList;
+    public List<Hecho> getHechoList() {
+        return hechoList;
     }
 
-    public void setEvidenciaList(List<Evidencia> evidenciaList) {
-        this.evidenciaList = evidenciaList;
-    }
-
-    @XmlTransient
-    public List<Sentencia> getSentenciaList() {
-        return sentenciaList;
-    }
-
-    public void setSentenciaList(List<Sentencia> sentenciaList) {
-        this.sentenciaList = sentenciaList;
+    public void setHechoList(List<Hecho> hechoList) {
+        this.hechoList = hechoList;
     }
 
     @Override
@@ -211,5 +207,5 @@ public class Demanda implements Serializable {
     public String toString() {
         return "com.laboraapp.persistence.Demanda[ idDemanda=" + idDemanda + " ]";
     }
-    
+
 }

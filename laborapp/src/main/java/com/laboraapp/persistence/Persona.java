@@ -5,6 +5,7 @@
  */
 package com.laboraapp.persistence;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -77,11 +78,13 @@ public class Persona implements Serializable {
     @Column(name = "NUMERO_IDENTIFICACION")
     private String numeroIdentificacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
+    @JsonBackReference(value = "demandaList")
     private List<Demanda> demandaList;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     @ManyToOne
     private Usuario idUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
+    @JsonBackReference(value = "tipoPersonaList")
     private List<TipoPersona> tipoPersonaList;
 
     public Persona() {
