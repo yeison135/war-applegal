@@ -69,19 +69,15 @@ public class Demanda implements Serializable {
     private String profecion;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
     @ManyToOne(optional = false)
-    @JsonManagedReference(value = "idPersona")
     private Persona idPersona;
     @JoinColumn(name = "ID_SALARIO_MINIMO", referencedColumnName = "ID_SALARIO_MINIMO")
     @ManyToOne(optional = false)
-    @JsonManagedReference(value = "idSalarioMinimo")
     private SalariosMinimos idSalarioMinimo;
     @JoinColumn(name = "ID_TIPO_CONFLICTO", referencedColumnName = "ID_TIPO_CONFLICTO")
     @ManyToOne(optional = false)
-    @JsonManagedReference(value = "idTipoConflicto")
     private TipoConflicto idTipoConflicto;
     @JoinColumn(name = "ID_TIP_CONTRATO", referencedColumnName = "ID_TIP_CONTRATO")
     @ManyToOne(optional = false)
-    @JsonManagedReference(value = "idTipContrato")
     private TipoContrato idTipContrato;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDemanda")
     @JsonBackReference(value = "hechoList")

@@ -36,7 +36,7 @@ public class LaborAppManager {
         List<TipoContrato> salarios = consulta.getResultList();
         return salarios;
     }
-    
+
     public Integer registrarUsuario(Usuario usuario, EntityManager em)
             throws Exception {
         Integer registro;
@@ -82,5 +82,28 @@ public class LaborAppManager {
         }
 
         return usuario;
+    }
+
+    public Boolean consultarUsuarioToken(Usuario usuario, EntityManager em) {
+        StringBuilder queryString = new StringBuilder();
+        queryString.append("SELECT u FROM Usuario u WHERE u.usuario =:usuario AND u.contrasena =:contrasena");
+        Query query = em.createQuery(queryString.toString());
+        if (usuario.getUsuario() != null && usuario.getContrasena() != null) {
+            query.setParameter("usuario", usuario.getUsuario());
+            query.setParameter("contrasena", usuario.getContrasena());
+        }
+        Usuario usuarioR = new Usuario();
+        Boolean valUser = true;
+        try {
+            usuarioR = (Usuario) query.getSingleResult();
+        } catch (Exception e) {
+            usuarioR = null;
+        }
+        if (usuarioR != null) {
+            valUser = true;
+        } else {
+            valUser = false;
+        }
+        return valUser;
     }
 }
