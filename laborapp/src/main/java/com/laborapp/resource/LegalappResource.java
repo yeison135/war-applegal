@@ -62,7 +62,8 @@ public class LegalappResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response ConsultarTipoConflicto(@HeaderParam("User-agent") String userAgent) {
         LaborAppManager manager = new LaborAppManager();
-        if(userAgent.equals("Admin")){
+        if(userAgent.equals("Admin")){ 
+            
              List<TipoConflicto> tipo = manager.ConsultarTipoConflicto(em);
         return Response.status(Response.Status.ACCEPTED).entity(tipo).build();
         }
