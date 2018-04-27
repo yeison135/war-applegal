@@ -5,6 +5,7 @@
  */
 package com.laborapp.auth;
 
+import com.laboraapp.Dtos.TokenDTO;
 import com.laboraapp.persistence.Usuario;
 import com.laborapp.entityManager.EMF;
 import com.laborapp.manager.LaborAppManager;
@@ -43,18 +44,16 @@ public class login {
         LaborAppManager manager = new LaborAppManager();
         Boolean user = manager.consultarUsuarioToken(usuario,em);
         if(user){
-            String clave = "admin";
+            String clave = "Admin";
             Long tiempo = System.currentTimeMillis();
            String jwt = Jwts.builder()
                    .signWith(SignatureAlgorithm.HS256, clave)
-                   .setSubject("User")
-                   .setIssuedAt(new Date(tiempo))
-                   .setExpiration(new Date(tiempo+500000000))
-                   .claim("imail", "yeison6340@gmail.com")
+                   .setSubject("Admin")
+                   .claim("Email", "yeison6340@gmail.com")
                    .compact();
-           JsonObject json = Json.createObjectBuilder()
-                   .add("Token", jwt).build();
-            return Response.status(Response.Status.ACCEPTED).entity(json).build();
+           TokenDTO token = new TokenDTO();
+           token.setToken(jwt);
+            return Response.status(Response.Status.ACCEPTED).entity(token).build();
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }

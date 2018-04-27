@@ -20,10 +20,13 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * REST Web Service
@@ -52,17 +55,20 @@ public class LegalappResource {
         List<Usuario> user = manager.consultarUsuarios(em);
         return user;
     }
-    
+
     @GET
     @Path("consultarTipoConflicto")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<TipoConflicto> ConsultarTipoConflicto() {
+    public Response ConsultarTipoConflicto(@HeaderParam("User-agent") String userAgent) {
         LaborAppManager manager = new LaborAppManager();
-        List<TipoConflicto> tipo = manager.ConsultarTipoConflicto(em);
-        return tipo;
+        if(userAgent.equals("Admin")){
+             List<TipoConflicto> tipo = manager.ConsultarTipoConflicto(em);
+        return Response.status(Response.Status.ACCEPTED).entity(tipo).build();
+        }
+       return Response.status(Response.Status.UNAUTHORIZED).build();
     }
-    
+
     @GET
     @Path("consultarSalarios")
     @Produces(MediaType.APPLICATION_JSON)
@@ -72,8 +78,8 @@ public class LegalappResource {
         List<SalariosMinimos> salario = manager.ConsultarSalarios(em);
         return salario;
     }
-    
-     @GET
+
+    @GET
     @Path("consultarTipoContrato")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -82,44 +88,43 @@ public class LegalappResource {
         List<TipoContrato> tipoContrato = manager.ConsultarTipoContrato(em);
         return tipoContrato;
     }
-    
+
     @POST
     @Path("registrarUsuario")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Integer registrarUsuario(Usuario usuario)throws 
-            Exception{
+    public Integer registrarUsuario(Usuario usuario) throws
+            Exception {
         LaborAppManager manager = new LaborAppManager();
-        Integer user = manager.registrarUsuario(usuario,em);
+        Integer user = manager.registrarUsuario(usuario, em);
         return user;
     }
-      
-    
+
     @POST
     @Path("registrarPersona")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Integer registrarPersona(Persona persona)throws 
-            Exception{
+    public Integer registrarPersona(Persona persona) throws
+            Exception {
         LaborAppManager manager = new LaborAppManager();
-        Integer user = manager.registrarPersona(persona,em);
+        Integer user = manager.registrarPersona(persona, em);
         return user;
     }
-    
-     @POST
+
+    @POST
     @Path("consultarUsuario")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Usuario consultarUsuario(FiltroDTO filtro)throws 
-            Exception{
+    public Usuario consultarUsuario(FiltroDTO filtro) throws
+            Exception {
         LaborAppManager manager = new LaborAppManager();
-        Usuario user = manager.consultarUsuario(filtro,em);
+        Usuario user = manager.consultarUsuario(filtro, em);
         return user;
     }
 
-
     /**
      * PUT method for updating or creating an instance of LegalappResource
+     *
      * @param content representation for the resource
      */
     @PUT
