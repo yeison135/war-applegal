@@ -83,7 +83,7 @@ public class LaborAppManager {
 
         return usuario;
     }
-
+    
     public Boolean consultarUsuarioToken(Usuario usuario, EntityManager em) {
         StringBuilder queryString = new StringBuilder();
         queryString.append("SELECT u FROM Usuario u WHERE u.usuario =:usuario AND u.contrasena =:contrasena");
