@@ -175,6 +175,7 @@ public class LegalappResource {
             Boolean valPersona = manager.actualizarPersona(persona,em);
             return Response.status(Response.Status.ACCEPTED).entity(valPersona).build();
         }
+        
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
