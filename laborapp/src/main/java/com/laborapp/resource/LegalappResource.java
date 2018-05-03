@@ -187,8 +187,9 @@ public class LegalappResource {
         LaborAppManager manager = new LaborAppManager();
         if (userAgent.equals("Admin")) {
             final String username = "yeison6340@gmail.com";
-            final String password = "03216549877894561230";
+            final String password = "03216549877894561230";    
 
+            
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
