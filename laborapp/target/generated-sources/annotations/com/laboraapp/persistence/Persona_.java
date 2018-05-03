@@ -9,16 +9,16 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-04-28T14:30:50")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-05-02T13:37:20")
 @StaticMetamodel(Persona.class)
 public class Persona_ { 
 
     public static volatile SingularAttribute<Persona, String> dirreccion;
+    public static volatile ListAttribute<Persona, Usuario> usuarioList;
     public static volatile SingularAttribute<Persona, Date> fechaNacimiento;
     public static volatile SingularAttribute<Persona, String> numeroIdentificacion;
     public static volatile ListAttribute<Persona, Demanda> demandaList;
     public static volatile ListAttribute<Persona, TipoPersona> tipoPersonaList;
-    public static volatile SingularAttribute<Persona, Usuario> idUsuario;
     public static volatile SingularAttribute<Persona, String> apellido;
     public static volatile SingularAttribute<Persona, String> correo;
     public static volatile SingularAttribute<Persona, String> nombre;

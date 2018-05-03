@@ -6,7 +6,6 @@
 package com.laboraapp.persistence;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -203,5 +202,5 @@ public class Demanda implements Serializable {
     public String toString() {
         return "com.laboraapp.persistence.Demanda[ idDemanda=" + idDemanda + " ]";
     }
-
+    
 }

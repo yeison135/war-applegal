@@ -17,6 +17,19 @@
     <class>com.laboraapp.persistence.Demanda</class>
     <class>com.laboraapp.persistence.Sentencia</class>
     <class>com.laboraapp.persistence.Hecho</class>
+    <class>com.laboraapp.persistence.FacturaCotizar</class>
+    <class>com.laboraapp.persistence.Color</class>
+    <class>com.laboraapp.persistence.OpcionLinea</class>
+    <class>com.laboraapp.persistence.DependeColor</class>
+    <class>com.laboraapp.persistence.Cliente</class>
+    <class>com.laboraapp.persistence.DependeColorColor</class>
+    <class>com.laboraapp.persistence.DetalleCotizacion</class>
+    <class>com.laboraapp.persistence.Opcion</class>
+    <class>com.laboraapp.persistence.Herramienta</class>
+    <class>com.laboraapp.persistence.LineaDeTrabajo</class>
+    <class>com.laboraapp.persistence.Molde</class>
+    <class>com.laboraapp.persistence.NoColor</class>
+    <class>com.laboraapp.persistence.Peticion</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/laborapp?zeroDateTimeBehavior=convertToNull"/>

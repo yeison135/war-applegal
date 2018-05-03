@@ -83,7 +83,57 @@ public class LaborAppManager {
 
         return usuario;
     }
+
+    public Usuario consultarUsuarioId(FiltroDTO filtro, EntityManager em) {
+        StringBuilder queryString = new StringBuilder();
+        queryString.append("SELECT u FROM Usuario u WHERE u.idUsuario =:idUsuario");
+        Query query = em.createQuery(queryString.toString());
+        if (filtro.getFiltroId() != null) {
+            query.setParameter("idUsuario", filtro.getFiltroUno());
+        }
+        Usuario usuario = new Usuario();
+        try {
+            usuario = (Usuario) query.getSingleResult();
+        } catch (Exception e) {
+            usuario = null;
+        }
+
+        return usuario;
+    }
     
+    public Persona consultarPersona(FiltroDTO filtro, EntityManager em) {
+         StringBuilder queryString = new StringBuilder();
+         Persona personaR = new Persona();
+        queryString.append("SELECT u FROM Usuario u WHERE u.idUsuario =:idUsuario");
+        Query query = em.createQuery(queryString.toString());
+        if (filtro.getFiltroId() != null) {
+            query.setParameter("idUsuario", filtro.getFiltroId());
+        }
+        Usuario usuario = new Usuario();
+        try {
+            usuario = (Usuario) query.getSingleResult();
+            personaR = usuario.getIdPersona();
+        } catch (Exception e) {
+            usuario = null;
+        }
+        return personaR;
+    }
+
+    public Boolean actualizarPersona(Persona persona, EntityManager em) {
+        Boolean valReturn;
+        Persona personaR = em.find(Persona.class, persona.getIdPersona());
+        if (personaR != null) {
+            em.getTransaction().begin();
+            personaR.setNombre(persona.getNombre());            
+            em.merge(personaR);
+            em.getTransaction().commit();
+            valReturn = true;
+        } else {
+            valReturn = false;
+        }
+        return valReturn;
+    }
+
     public Boolean consultarUsuarioToken(Usuario usuario, EntityManager em) {
         StringBuilder queryString = new StringBuilder();
         queryString.append("SELECT u FROM Usuario u WHERE u.usuario =:usuario AND u.contrasena =:contrasena");

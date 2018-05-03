@@ -68,6 +68,9 @@ public class Hecho implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hechoIDSENTENCIA")
     @JsonBackReference(value = "evidenciaList")
     private List<Evidencia> evidenciaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hechoIDSENTENCIA")
+    @JsonBackReference(value = "peticionList")
+    private List<Peticion> peticionList;
 
     public Hecho() {
     }
@@ -131,6 +134,15 @@ public class Hecho implements Serializable {
 
     public void setEvidenciaList(List<Evidencia> evidenciaList) {
         this.evidenciaList = evidenciaList;
+    }
+
+    @XmlTransient
+    public List<Peticion> getPeticionList() {
+        return peticionList;
+    }
+
+    public void setPeticionList(List<Peticion> peticionList) {
+        this.peticionList = peticionList;
     }
 
     @Override

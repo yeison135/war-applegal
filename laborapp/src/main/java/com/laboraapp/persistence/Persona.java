@@ -16,8 +16,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -80,12 +78,12 @@ public class Persona implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
     @JsonBackReference(value = "demandaList")
     private List<Demanda> demandaList;
-    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
-    @ManyToOne
-    private Usuario idUsuario;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
     @JsonBackReference(value = "tipoPersonaList")
     private List<TipoPersona> tipoPersonaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
+    @JsonBackReference(value = "usuarioList")
+    private List<Usuario> usuarioList;
 
     public Persona() {
     }
@@ -175,14 +173,6 @@ public class Persona implements Serializable {
         this.demandaList = demandaList;
     }
 
-    public Usuario getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(Usuario idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
     @XmlTransient
     public List<TipoPersona> getTipoPersonaList() {
         return tipoPersonaList;
@@ -190,6 +180,15 @@ public class Persona implements Serializable {
 
     public void setTipoPersonaList(List<TipoPersona> tipoPersonaList) {
         this.tipoPersonaList = tipoPersonaList;
+    }
+
+    @XmlTransient
+    public List<Usuario> getUsuarioList() {
+        return usuarioList;
+    }
+
+    public void setUsuarioList(List<Usuario> usuarioList) {
+        this.usuarioList = usuarioList;
     }
 
     @Override
