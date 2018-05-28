@@ -5,12 +5,9 @@
  */
 package com.laboraapp.persistence;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,13 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -69,18 +65,12 @@ public class Demanda implements Serializable {
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
     @ManyToOne(optional = false)
     private Persona idPersona;
-    @JoinColumn(name = "ID_SALARIO_MINIMO", referencedColumnName = "ID_SALARIO_MINIMO")
-    @ManyToOne(optional = false)
-    private SalariosMinimos idSalarioMinimo;
     @JoinColumn(name = "ID_TIPO_CONFLICTO", referencedColumnName = "ID_TIPO_CONFLICTO")
     @ManyToOne(optional = false)
     private TipoConflicto idTipoConflicto;
     @JoinColumn(name = "ID_TIP_CONTRATO", referencedColumnName = "ID_TIP_CONTRATO")
     @ManyToOne(optional = false)
     private TipoContrato idTipContrato;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDemanda")
-    @JsonBackReference(value = "hechoList")
-    private List<Hecho> hechoList;
 
     public Demanda() {
     }
@@ -145,14 +135,6 @@ public class Demanda implements Serializable {
         this.idPersona = idPersona;
     }
 
-    public SalariosMinimos getIdSalarioMinimo() {
-        return idSalarioMinimo;
-    }
-
-    public void setIdSalarioMinimo(SalariosMinimos idSalarioMinimo) {
-        this.idSalarioMinimo = idSalarioMinimo;
-    }
-
     public TipoConflicto getIdTipoConflicto() {
         return idTipoConflicto;
     }
@@ -167,15 +149,6 @@ public class Demanda implements Serializable {
 
     public void setIdTipContrato(TipoContrato idTipContrato) {
         this.idTipContrato = idTipContrato;
-    }
-
-    @XmlTransient
-    public List<Hecho> getHechoList() {
-        return hechoList;
-    }
-
-    public void setHechoList(List<Hecho> hechoList) {
-        this.hechoList = hechoList;
     }
 
     @Override

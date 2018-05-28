@@ -62,12 +62,14 @@ public class Usuario implements Serializable {
     @Size(max = 45)
     @Column(name = "ESTADO")
     private String estado;
-    @Lob
-    @Column(name = "FOTO")
-    private byte[] foto;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
     @ManyToOne(optional = false)
     private Persona idPersona;
+    @Lob
+    @Column(name = "FOTO")
+    private byte[] foto;
+    @Column(name = "INDICADOR")
+    private Integer indicador;
 
     public Usuario() {
     }
@@ -124,13 +126,6 @@ public class Usuario implements Serializable {
         this.estado = estado;
     }
 
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
 
     public Persona getIdPersona() {
         return idPersona;
@@ -163,6 +158,23 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.laboraapp.persistence.Usuario[ idUsuario=" + idUsuario + " ]";
+    }
+
+
+    public Integer getIndicador() {
+        return indicador;
+    }
+
+    public void setIndicador(Integer indicador) {
+        this.indicador = indicador;
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
     
 }

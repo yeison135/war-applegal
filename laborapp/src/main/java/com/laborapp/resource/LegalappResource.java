@@ -5,19 +5,18 @@
  */
 package com.laborapp.resource;
 
+import com.laboraapp.persistence.Demanda;
+import com.laboraapp.persistence.Hecho;
 import com.laboraapp.persistence.Persona;
-import com.laboraapp.persistence.SalariosMinimos;
 import com.laboraapp.persistence.TipoConflicto;
 import com.laboraapp.persistence.TipoContrato;
 import com.laboraapp.persistence.Usuario;
 import com.laborapp.entityManager.EMF;
 import com.laborapp.filtroDTO.FiltroDTO;
 import com.laborapp.manager.LaborAppManager;
-import java.net.PasswordAuthentication;
 import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -34,7 +33,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * REST Web Service
@@ -81,19 +79,6 @@ public class LegalappResource {
     }
 
     @GET
-    @Path("consultarSalarios")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response ConsultarSalarios(@HeaderParam("Authorization") String userAgent) {
-        LaborAppManager manager = new LaborAppManager();
-        if (userAgent.equals("Admin")) {
-            List<SalariosMinimos> salario = manager.ConsultarSalarios(em);
-            return Response.status(Response.Status.ACCEPTED).entity(salario).build();
-        }
-        return Response.status(Response.Status.UNAUTHORIZED).build();
-    }
-
-    @GET
     @Path("consultarTipoContrato")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -121,6 +106,34 @@ public class LegalappResource {
     }
 
     @POST
+    @Path("registrarDemanda")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response registrarDemanda(@HeaderParam("Authorization") String userAgent, Demanda demanda) throws
+            Exception {
+        LaborAppManager manager = new LaborAppManager();
+        if (userAgent != null && userAgent.equals("Admin")) {
+            Integer user = manager.registrarDemanda(demanda, em);
+            return Response.status(Response.Status.ACCEPTED).entity(user).build();
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
+    @Path("registrarHecho")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response registrarHecho(@HeaderParam("Authorization") String userAgent, Hecho hecho) throws
+            Exception {
+        LaborAppManager manager = new LaborAppManager();
+        if (userAgent != null && userAgent.equals("Admin")) {
+            Integer user = manager.registrarEcho(hecho, em);
+            return Response.status(Response.Status.ACCEPTED).entity(user).build();
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
     @Path("registrarPersona")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -133,8 +146,8 @@ public class LegalappResource {
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
-
-    @POST
+    
+     @POST
     @Path("consultarUsuario")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -149,21 +162,69 @@ public class LegalappResource {
     }
     
     @POST
+    @Path("consultarUsuarioId")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response consultarUsuarioId(@HeaderParam("Authorization") String userAgent, FiltroDTO filtro) throws
+            Exception {
+        LaborAppManager manager = new LaborAppManager();
+        if (userAgent.equals("Admin")) {
+            Usuario user = manager.consultarUsuarioId(filtro, em);
+            return Response.status(Response.Status.ACCEPTED).entity(user).build();
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
+    @Path("consultarDemanda")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response consultarDemanda(@HeaderParam("Authorization") String userAgent, FiltroDTO filtro) throws
+            Exception {
+        LaborAppManager manager = new LaborAppManager();
+        if (userAgent != null && userAgent.equals("Admin")) {
+            Demanda demanda = manager.consultarDemanda(filtro, em);
+            if (demanda != null) {
+                return Response.status(Response.Status.ACCEPTED).entity(demanda).build();
+            } else {
+                return Response.status(Response.Status.ACCEPTED).entity(null).build();
+            }
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
+    @Path("consultarHechos")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response consultarHechos(@HeaderParam("Authorization") String userAgent, FiltroDTO filtro) throws
+            Exception {
+        LaborAppManager manager = new LaborAppManager();
+        if (userAgent != null && userAgent.equals("Admin")) {
+            List<Hecho> hechos = manager.consultarHechos(filtro, em);
+            if (hechos != null) {
+                return Response.status(Response.Status.ACCEPTED).entity(hechos).build();
+            } else {
+                return Response.status(Response.Status.ACCEPTED).entity(null).build();
+            }
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
     @Path("consultarPersona")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response consultarPersona(@HeaderParam("Authorization") String userAgent, FiltroDTO filtro) throws
             Exception {
         LaborAppManager manager = new LaborAppManager();
-        if (userAgent.equals("Admin")) {
-            Persona user = manager.consultarPersona(filtro, em);
+        if (userAgent != null && userAgent.equals("Admin")) {
+            Usuario user = manager.consultarPersona(filtro, em);
             return Response.status(Response.Status.ACCEPTED).entity(user).build();
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
-    }  
-    
-    
-    
+    }
+
     @POST
     @Path("actualizarPersona")
     @Produces(MediaType.APPLICATION_JSON)
@@ -172,10 +233,24 @@ public class LegalappResource {
             Exception {
         LaborAppManager manager = new LaborAppManager();
         if (userAgent.equals("Admin")) {
-            Boolean valPersona = manager.actualizarPersona(persona,em);
+            Boolean valPersona = manager.actualizarPersona(persona, em);
             return Response.status(Response.Status.ACCEPTED).entity(valPersona).build();
         }
-        
+
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
+
+    @POST
+    @Path("actualizarTutorial")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarTutorial(@HeaderParam("Authorization") String userAgent, Usuario usuario) throws
+            Exception {
+        LaborAppManager manager = new LaborAppManager();
+        if (userAgent != null && userAgent.equals("Admin")) {
+            Boolean valPersona = manager.actualizarTutorial(usuario, em);
+            return Response.status(Response.Status.ACCEPTED).entity(valPersona).build();
+        }
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
 
@@ -183,14 +258,13 @@ public class LegalappResource {
     @Path("envioCorreo")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response envioCorreo(@HeaderParam("Authorization") String userAgent, FiltroDTO filtro) throws
+    public Response envioCorreo(@HeaderParam("Authorization") String userAgent, Persona personaP) throws
             Exception {
         LaborAppManager manager = new LaborAppManager();
         if (userAgent.equals("Admin")) {
             final String username = "yeison6340@gmail.com";
-            final String password = "03216549877894561230";    
+            final String password = "03216549877894561230";
 
-            
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
@@ -203,16 +277,18 @@ public class LegalappResource {
                     return new javax.mail.PasswordAuthentication(username, password);
                 }
             });
-            Persona persona = manager.consultarPersona(filtro,em); 
+            Persona persona = manager.consultarPersonaCorreo(personaP, em);
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("yeison6340@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse("yeison6340@gmail.com"));
             message.setSubject("Notificación contacto");
             message.setText("Buen dia"
-                    + "\n\n Telefono: "+filtro.getFiltroDosId()
-                    +"\n\n Nombre: "+persona.getNombre()+" "+persona.getApellido()
-                    +"\n\n\n\n  Descripcion: "+filtro.getFiltroUno());
+                    + "\n\n Nombre: " + persona.getNombre() + " " + persona.getApellido()
+                    + "\n\n Correo: " + personaP.getCorreo()
+                    + "\n\n Telefono: " + personaP.getNumeroTelefono()
+                    + "\n\n Ciudad: " + personaP.getCiudadDomicilio()
+                    + "\n\n\n\n  Descripcion: " + personaP.getDirreccion());
             Transport.send(message);
             System.out.println("Done");
 

@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -84,6 +86,12 @@ public class Persona implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPersona")
     @JsonBackReference(value = "usuarioList")
     private List<Usuario> usuarioList;
+    @Size(max = 45)
+    @Column(name = "CIUDAD_DOMICILIO")
+    private String ciudadDomicilio;
+    @JoinColumn(name = "ID_MUNICIPIO", referencedColumnName = "ID_MUNICIPIO")
+    @ManyToOne
+    private Municipio idMunicipio;
 
     public Persona() {
     }
@@ -214,6 +222,22 @@ public class Persona implements Serializable {
     @Override
     public String toString() {
         return "com.laboraapp.persistence.Persona[ idPersona=" + idPersona + " ]";
+    }
+
+    public String getCiudadDomicilio() {
+        return ciudadDomicilio;
+    }
+
+    public void setCiudadDomicilio(String ciudadDomicilio) {
+        this.ciudadDomicilio = ciudadDomicilio;
+    }
+
+    public Municipio getIdMunicipio() {
+        return idMunicipio;
+    }
+
+    public void setIdMunicipio(Municipio idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
     
 }

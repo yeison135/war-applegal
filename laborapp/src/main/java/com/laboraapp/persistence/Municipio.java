@@ -55,6 +55,8 @@ public class Municipio implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dMunicipio")
     @JsonBackReference(value = "oficinaList")
     private List<Oficina> oficinaList;
+    @OneToMany(mappedBy = "idMunicipio")
+    private List<Persona> personaList;
 
     public Municipio() {
     }
@@ -127,6 +129,15 @@ public class Municipio implements Serializable {
     @Override
     public String toString() {
         return "com.laboraapp.persistence.Municipio[ idMunicipio=" + idMunicipio + " ]";
+    }
+
+    @XmlTransient
+    public List<Persona> getPersonaList() {
+        return personaList;
+    }
+
+    public void setPersonaList(List<Persona> personaList) {
+        this.personaList = personaList;
     }
     
 }

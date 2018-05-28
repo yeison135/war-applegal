@@ -74,7 +74,7 @@ public class FiltroDTO {
     /**
      * Filtro por identificador
      */
-    private Integer filtroDosId;
+    private Long filtroDosId;
     /**
      * Filtro por tipo de documento
      */
@@ -252,14 +252,14 @@ public class FiltroDTO {
     /*
      * @return the filtroDosId
      */
-    public Integer getFiltroDosId() {
+    public Long getFiltroDosId() {
         return filtroDosId;
     }
 
     /**
      * @param filtroDosId the filtroDosId to set
      */
-    public void setFiltroDosId(Integer filtroDosId) {
+    public void setFiltroDosId(Long filtroDosId) {
         this.filtroDosId = filtroDosId;
     }
 

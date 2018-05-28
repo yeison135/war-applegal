@@ -45,9 +45,6 @@ public class Evidencia implements Serializable {
     @Size(max = 45)
     @Column(name = "DESCRIPCION")
     private String descripcion;
-    @Lob
-    @Column(name = "FOTO")
-    private byte[] foto;
     @Size(max = 45)
     @Column(name = "ARCHIVO")
     private String archivo;
@@ -57,6 +54,9 @@ public class Evidencia implements Serializable {
     @JoinColumn(name = "Hecho_ID_SENTENCIA", referencedColumnName = "ID_SENTENCIA")
     @ManyToOne(optional = false)
     private Hecho hechoIDSENTENCIA;
+    @Lob
+    @Column(name = "FOTO")
+    private byte[] foto;
 
     public Evidencia() {
     }
@@ -81,13 +81,6 @@ public class Evidencia implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
 
     public String getArchivo() {
         return archivo;
@@ -136,6 +129,14 @@ public class Evidencia implements Serializable {
     @Override
     public String toString() {
         return "com.laboraapp.persistence.Evidencia[ idEvidencia=" + idEvidencia + " ]";
+    }
+
+    public byte[] getFoto() {
+        return foto;
+    }
+
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
     
 }
