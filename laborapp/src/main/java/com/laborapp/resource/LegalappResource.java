@@ -253,6 +253,19 @@ public class LegalappResource {
         }
         return Response.status(Response.Status.UNAUTHORIZED).build();
     }
+    @POST
+    @Path("actualizarCorreo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response actualizarCorreo(@HeaderParam("Authorization") String userAgent, Usuario usuario) throws
+            Exception {
+        LaborAppManager manager = new LaborAppManager();
+        if (userAgent != null && userAgent.equals("Admin")) {
+            Boolean valPersona = manager.actualizarCorreo(usuario, em);
+            return Response.status(Response.Status.ACCEPTED).entity(valPersona).build();
+        }
+        return Response.status(Response.Status.UNAUTHORIZED).build();
+    }
 
     @POST
     @Path("envioCorreo")
@@ -263,7 +276,7 @@ public class LegalappResource {
         LaborAppManager manager = new LaborAppManager();
         if (userAgent.equals("Admin")) {
             final String username = "yeison6340@gmail.com";
-            final String password = "03216549877894561230";
+            final String password = "Yeisonc18";
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -277,17 +290,19 @@ public class LegalappResource {
                     return new javax.mail.PasswordAuthentication(username, password);
                 }
             });
-            Persona persona = manager.consultarPersonaCorreo(personaP, em);
+            FiltroDTO filtro = new FiltroDTO();
+            filtro.setFiltroId(personaP.getIdPersona());
+            Usuario persona = manager.consultarPersona(filtro, em);
+            manager.actualizarCorreo(persona, em);
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress("yeison6340@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse("yeison6340@gmail.com"));
             message.setSubject("Notificación contacto");
             message.setText("Buen dia"
-                    + "\n\n Nombre: " + persona.getNombre() + " " + persona.getApellido()
-                    + "\n\n Correo: " + personaP.getCorreo()
-                    + "\n\n Telefono: " + personaP.getNumeroTelefono()
-                    + "\n\n Ciudad: " + personaP.getCiudadDomicilio()
+                    + "\n\n Nombre: " + persona.getIdPersona().getNombre() + " " + persona.getIdPersona().getApellido()
+                    + "\n\n Telefono: " + persona.getIdPersona().getNumeroTelefono()
+                    + "\n\n Correo: " + persona.getIdPersona().getCorreo()
                     + "\n\n\n\n  Descripcion: " + personaP.getDirreccion());
             Transport.send(message);
             System.out.println("Done");

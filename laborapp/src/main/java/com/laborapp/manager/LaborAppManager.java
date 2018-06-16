@@ -225,6 +225,21 @@ public class LaborAppManager {
         }
         return valReturn;
     }
+       
+        public Boolean actualizarCorreo(Usuario usuario, EntityManager em) {
+        Boolean valReturn;
+        Usuario usuarior = em.find(Usuario.class, usuario.getIdUsuario());        
+        if (usuarior.getIdUsuario() != null) {
+            usuarior.setCorreo(1);
+            em.getTransaction().begin();
+            em.merge(usuarior);
+            em.getTransaction().commit();
+            valReturn = true;
+        } else {
+            valReturn = false;
+        }
+        return valReturn;
+    }
 
     public Boolean consultarUsuarioToken(Usuario usuario, EntityManager em) {
         StringBuilder queryString = new StringBuilder();

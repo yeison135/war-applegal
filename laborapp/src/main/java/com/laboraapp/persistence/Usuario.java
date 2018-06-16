@@ -41,6 +41,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Usuario.findByEstado", query = "SELECT u FROM Usuario u WHERE u.estado = :estado")})
 public class Usuario implements Serializable {
 
+    @Lob
+    @Column(name = "FOTO")
+    private byte[] foto;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,11 +69,11 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
     @ManyToOne(optional = false)
     private Persona idPersona;
-    @Lob
-    @Column(name = "FOTO")
-    private byte[] foto;
     @Column(name = "INDICADOR")
     private Integer indicador;
+    @Column(name = "CORREO")
+    private Integer correo;
+
 
     public Usuario() {
     }
@@ -167,6 +171,15 @@ public class Usuario implements Serializable {
 
     public void setIndicador(Integer indicador) {
         this.indicador = indicador;
+    }
+
+
+    public Integer getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(Integer correo) {
+        this.correo = correo;
     }
 
     public byte[] getFoto() {

@@ -36,6 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Evidencia.findByFechaRegistro", query = "SELECT e FROM Evidencia e WHERE e.fechaRegistro = :fechaRegistro")})
 public class Evidencia implements Serializable {
 
+    @Lob
+    @Column(name = "FOTO")
+    private byte[] foto;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,9 +58,6 @@ public class Evidencia implements Serializable {
     @JoinColumn(name = "Hecho_ID_SENTENCIA", referencedColumnName = "ID_SENTENCIA")
     @ManyToOne(optional = false)
     private Hecho hechoIDSENTENCIA;
-    @Lob
-    @Column(name = "FOTO")
-    private byte[] foto;
 
     public Evidencia() {
     }

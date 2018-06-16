@@ -92,6 +92,9 @@ public class Persona implements Serializable {
     @JoinColumn(name = "ID_MUNICIPIO", referencedColumnName = "ID_MUNICIPIO")
     @ManyToOne
     private Municipio idMunicipio;
+    @Size(max = 45)
+    @Column(name = "TIPO_INDEN")
+    private String tipoInden;
 
     public Persona() {
     }
@@ -238,6 +241,14 @@ public class Persona implements Serializable {
 
     public void setIdMunicipio(Municipio idMunicipio) {
         this.idMunicipio = idMunicipio;
+    }
+
+    public String getTipoInden() {
+        return tipoInden;
+    }
+
+    public void setTipoInden(String tipoInden) {
+        this.tipoInden = tipoInden;
     }
     
 }
